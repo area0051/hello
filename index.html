@@ -1,117 +1,105 @@
-<title>MY name</title>
-<!-- Bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<style>
-    body {
-        padding: 50px;
-        color: black;
-        font-family: serif;
-        text-align: center;
-        background-color: #b2d4e9;
-        text-align: left;
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>15 パズル</title>
+
+  <style>
+    .container {
+      width: 450px;
+      height: 450px;
+      border: 1px solid red;
+      display: flex;
+      flex-wrap: wrap;
     }
-    
-    .starter-template {
-        padding: 50px 100px;
-        background-color: white;
-        margin: 0 auto;
-        max-width: 800px;
+
+    .item {
+      width: 90px;
+      height: 90px;
+      line-height: 90px;
+      border: 1px solid blue;
+      box-sizing: border-box;
+      background-color: aliceblue;
+      text-align: center;
+      vertical-align: middle;
     }
-    
-    .col-sm-6 {
-        padding: 50px;
-        text-align: left;
+
+    #move-count {
+      font-size: 24px;
+      margin-top: 10px;
     }
-    
-    h1 {
-        font-weight: bold;
-        position: relative;
-        color: #6eb0f9;
-        text-align: center;
-        line-height: 1.4;
-        -webkit-box-reflect: below -10px -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0.6));
-    }
-    
-    h4 {
-        font-weight: bold;
-    }
-    
-    p1 {
-        color: red;
-        font-family: sans-serif;
-    }
-</style>
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
+
 <body>
-    <div class="colorchangeanime2_bg"></div>
+  <div id="app">
     <div class="container">
-        <div class="starter-template">
-            <h1>自己紹介</h1>
-            <p style="margin-bottom: 75px;"></p>
-            <div class="row">
-                <div class="col-sm-7">
-                    <h4>名前・出身地</h4>
-                    <p style="margin-bottom: 20px;"></p>
-                    <h4>植山 雄斗</h4>
-                    <p style="margin-bottom: 10px;"></p>
-                    <h4>兵庫県 伊丹市</h4>
-                    <p style="margin-bottom: 30px;"></p>
-                </div>
-
-            <div class="col-sm-5">
-                <p3><p style="margin-bottom: 150px;"></p>
-                    <h4>スキル・実績</h4>
-                    <p style="margin-bottom: 20px;"></p>
-                    <ul>
-                        <li>功労賞（小年野球)</li>
-                        <li>ワープロ検定３</li>
-                        <li>知的財産技能検定３級</li>
-                        <li>ニュース時事検定３級</li>
-                        <span style="border-bottom: solid 1px red;">
-                            <big><p1>資格勉強に対して強い</p1></big>
-                        </span>
-                    </ul>
-                    <p3>
-            </div>
-        </div>
-
-        <div class="row">
-                <div class="col-sm-7">
-                <h4>趣味</h4>
-                
-                <p>
-                    <big>・ゲーム</big>
-                <p style="margin-bottom: 5px;"></p>
-                  やっているもの (R6S, OW2, APEX)<br>
-                  主にFPSゲームが好きです。<br>
-                  ゲームが気になる方へ<br>
-                  　　　　　↓<br>
-                <button onclick="window.location.href = 'https://www.ubisoft.com/ja-jp/game/rainbow-six/siege';">R6S</button>
-                <button onclick="window.location.href = 'https://overwatch.blizzard.com/ja-jp/';">OW2</button>
-                <button onclick="window.location.href = 'https://www.ea.com/ja-jp/games/apex-legends/about/';">APEX</button>
-                </p>
-                <p>
-                <big>・野球</big>
-                <p style="margin-bottom: 5px;"></p>
-                  小1〜中3まで現役<br>
-                  好きなチーム: 阪神タイガース<br>
-                  好きな選手: 大谷翔平　イチロー
-                </p5>
-                </div>
-                
-        <div class="row">
-                <div class="col-sm-5">
-                    <p style="margin-bottom: 350px;"></p>
-                 <h4>最近していること</h4>
-                 <p>Python,HTML,Unityを勉強中です。</p>
-                 <span style="border-bottom: solid 1px red;">
-                     <p1>就活に活かすために勉強しています。</p1>
-                </span>
-                 
-                    
-            </div>
-        </div>
+      <div
+        class="item"
+        v-for="piece in pieces"
+        v-on:click="move(piece)"
+      >
+        {{ piece }}
+      </div>
     </div>
+    <button v-on:click="shufflePieces">シャッフルする</button>
+    <div id="move-count">{{ count }} 回移動しました</div>
+  </div>
 
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          pieces: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, ''],
+          count: 0,
+        };
+      },
+
+      methods: {
+        shufflePieces() {
+          this.pieces = _.shuffle(this.pieces);
+          this.count = 0;
+        },
+
+        move(piece) {
+          const adjacentPieces = this.findAdjacentOfEmpty();
+
+          if (adjacentPieces.includes(piece)) {
+            const indexOfEmpty = this.pieces.findIndex(x => x === '');
+            const indexOfPiece = this.pieces.findIndex(x => x === piece);
+
+            [this.pieces[indexOfEmpty], this.pieces[indexOfPiece]] = [this.pieces[indexOfPiece], this.pieces[indexOfEmpty]];
+            this.count += 1;
+          }
+
+          if (String(this.pieces.slice(0, -1)) === '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24') {
+            setTimeout(() => alert('クリア！'), 0);
+          };
+        },
+
+        findAdjacentOfEmpty() {
+          const indexOfEmpty = this.pieces.findIndex(x => x === '');
+
+          let movableIndex = [
+            indexOfEmpty - 5,
+            indexOfEmpty + 5,
+            indexOfEmpty - 1,
+            indexOfEmpty + 1
+          ];
+
+          movableIndex = movableIndex.filter(x => 0 <= x && x <= 24);
+
+          return movableIndex.map(index => this.pieces[index]);
+        },
+      }
+    }).mount('#app');
+  </script>
 </body>
+
 </html>
